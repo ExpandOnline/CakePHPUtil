@@ -1,0 +1,10 @@
+{
+  "name": "ExpandOnline/CakePHPUtil",
+  "type": "cakephp-plugin",
+  "version": "0.1.0",
+  "description": "The DEO plugin containing utilities that are not specific to any one plugin.",
+  "homepage": "http://github.com/ExpandOnline/CIA",
+  "require": {
+    "php": ">=5.3.3",
+  }
+}
