@@ -5,6 +5,6 @@
   "description": "The DEO plugin containing utilities that are not specific to any one plugin.",
   "homepage": "http://github.com/ExpandOnline/CIA",
   "require": {
-    "php": ">=5.3.3",
+    "php": ">=5.3.3"
   }
 }
