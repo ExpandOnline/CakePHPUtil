@@ -47,7 +47,7 @@ class MongoFixtureHandler {
 					. $fixtureName . ' does not have a test datasource.');
 			}
 			self::$_models[] = $model;
-			foreach($fixture->collections as $collection => $documents) {
+			foreach ($fixture->collections as $collection => $documents) {
 				$model->setSource($collection);
 				$model->batchInsert($documents);
 			}
