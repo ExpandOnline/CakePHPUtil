@@ -10,6 +10,7 @@ abstract class Data {
 	const HOURS = 'Hours';
 	const ERROR = 'Error';
 	const ICON = 'Icon';
+	const FINANCIAL = 'Financial';
 
 /**
  * @return string
