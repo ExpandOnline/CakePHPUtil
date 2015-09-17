@@ -1,20 +1,34 @@
 <?php
-
-/**
- * @property ExchangeRateCalculator $_exchangeRateCalculator
- */
 App::uses('Data', 'CakePHPUtil.Lib/Data');
 App::uses('ExchangeRateCalculator', 'CakePHPExchangeRates.Lib');
 
+/**
+ * Class FinancialData
+ */
 class FinancialData extends Data {
 
+/**
+ * @var int
+ */
 	protected $_moneyInMicros;
 
+/**
+ * @var ExchangeRateCalculator
+ */
 	protected $_exchangeRateCalculator;
 
+/**
+ * @var DateTime
+ */
 	protected $_exchangeDate;
 
-	function __construct($moneyInMicros, DateTime $exchangeDate = null, $currencyCode = CIA_APPLICATION_CURRENCY) {
+/**
+ * @param               $moneyInMicros
+ * @param DateTime|null $exchangeDate
+ * @param string        $currencyCode
+ */
+	public function __construct($moneyInMicros, DateTime $exchangeDate = null,
+		$currencyCode = CIA_APPLICATION_CURRENCY) {
 		if (!is_numeric($moneyInMicros)) {
 			throw new InvalidArgumentException('MoneyInMicros must be numeric');
 		}
