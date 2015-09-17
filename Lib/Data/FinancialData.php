@@ -23,12 +23,17 @@ class FinancialData extends Data {
 	protected $_exchangeDate;
 
 /**
- * @param               $moneyInMicros
- * @param DateTime|null $exchangeDate
- * @param string        $currencyCode
+ * @var string
  */
-	public function __construct($moneyInMicros, DateTime $exchangeDate = null,
-		$currencyCode = CIA_APPLICATION_CURRENCY) {
+	protected $_currency;
+
+/**
+ * @param               $moneyInMicros
+ * @param string        $currencyCode
+ * @param DateTime|null $exchangeDate
+ */
+	public function __construct($moneyInMicros, $currencyCode = CIA_APPLICATION_CURRENCY,
+		DateTime $exchangeDate = null) {
 		if (!is_numeric($moneyInMicros)) {
 			throw new InvalidArgumentException('MoneyInMicros must be numeric');
 		}
@@ -36,7 +41,7 @@ class FinancialData extends Data {
 			$exchangeDate = new DateTime('now', new DateTimeZone(CIA_APPLICATION_TIMEZONE));
 		}
 		$this->_exchangeDate = $exchangeDate;
-		$this->_micros = $moneyInMicros;
+		$this->_moneyInMicros = $moneyInMicros;
 		$this->_currency = $currencyCode;
 		$this->_exchangeRateCalculator = new ExchangeRateCalculator();
 	}
@@ -54,7 +59,7 @@ class FinancialData extends Data {
  * @return float
  */
 	public function getMoneyInMicros($currencyCode = CIA_APPLICATION_CURRENCY) {
-		if (!$currencyCode === $this->_currency) {
+		if ($currencyCode !== $this->_currency) {
 			return $this->_exchangeRateCalculator->convert(
 				$this->_moneyInMicros,
 				$this->_currency,
@@ -72,5 +77,19 @@ class FinancialData extends Data {
  */
 	public function getMoney($currencyCode = CIA_APPLICATION_CURRENCY) {
 		return $this->getMoneyInMicros($currencyCode) / 1000000;
+	}
+
+/**
+ * @return DateTime|null
+ */
+	public function getExchangeDate() {
+		return $this->_exchangeDate;
+	}
+
+/**
+ * @return string
+ */
+	public function getCurrency() {
+		return $this->_currency;
 	}
 }
