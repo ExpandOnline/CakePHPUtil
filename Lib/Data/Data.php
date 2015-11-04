@@ -12,6 +12,17 @@ abstract class Data {
 	const ICON = 'Icon';
 	const FINANCIAL = 'Financial';
 
+	const POSITIVE = 1;
+
+	const NEUTRAL = 2;
+
+	const NEGATIVE = 3;
+
+/**
+ * @var null indicates the nature of this data (e.g. positive for good, negative for bad, etc.)
+ */
+	protected $_sign = null;
+
 /**
  * @return string
  */
@@ -22,6 +33,23 @@ abstract class Data {
  * @throws Exception
  */
 	public function __toString() {
-		throw new Exception('Tostring not implemented.');
+		throw new Exception('__toString not implemented.');
+	}
+
+
+/**
+ * @param $sign
+ */
+	public function setSign($sign) {
+		if ($sign == self::POSITIVE || $sign == self::NEGATIVE || $sign == self::NEUTRAL) {
+			$this->_sign = $sign;
+		}
+	}
+
+/**
+ * @return int
+ */
+	public function getSign() {
+		return isset($this->_sign) ? $this->_sign : self::NEUTRAL;
 	}
 }
