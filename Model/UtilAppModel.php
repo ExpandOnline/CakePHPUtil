@@ -85,4 +85,33 @@ class UtilAppModel extends Model {
 		}
 		return '';
 	}
+
+/**
+ * @param $data
+ *
+ * @return mixed
+ * @throws Exception
+ */
+	public function saveAndDeleteAssociated($data) {
+		$ds = $this->getDataSource();
+		$ds->begin();
+		$id = isset($data[$this->alias]['id']) ? $data[$this->alias]['id'] : null;
+		if (!is_null($id)) {
+			foreach ($data as $modelName => $modelData) {
+				if (array_key_exists($modelName, $this->hasMany)) {
+					$this->{$modelName}->deleteAll(array(
+						$this->hasMany[$modelName]['foreignKey'] => $id
+					));
+				}
+			}
+		}
+
+		$result = $this->saveAssociated($data);
+		if ($result) {
+			$ds->commit();
+		} else {
+			$ds->rollback();
+		}
+		return $result;
+	}
 }
