@@ -8,7 +8,12 @@ App::uses('ShortData', 'CakePHPUtil.Lib/Data');
 App::uses('HoursData', 'CakePHPUtil.Lib/Data');
 App::uses('ErrorData', 'CakePHPUtil.Lib/Data');
 App::uses('IconData', 'CakePHPUtil.Lib/Data');
+App::uses('FinancialData', 'CakePHPUtil.Lib/Data');
+App::uses('PercentageData', 'CakePHPUtil.Lib/Data');
 
+/**
+ * Class EntityObject
+ */
 abstract class EntityObject extends ArrayObject {
 
 /**
@@ -61,5 +66,14 @@ abstract class EntityObject extends ArrayObject {
  */
 	public static function approveContain($contain) {
 		return true;
+	}
+
+/**
+ * @param $amount
+ *
+ * @return mixed
+ */
+	protected function _toMicro($amount) {
+		return $amount * 1000000;
 	}
 }

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Data
+ */
 abstract class Data {
 
 	const DATE = 'Date';
@@ -11,6 +14,7 @@ abstract class Data {
 	const ERROR = 'Error';
 	const ICON = 'Icon';
 	const FINANCIAL = 'Financial';
+	const PERCENTAGE = 'Percentage';
 
 	const POSITIVE = 1;
 
