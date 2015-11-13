@@ -35,6 +35,6 @@ class PercentageData extends Data {
  * @return string
  */
 	public function __toString() {
-		return $this->_percentage . '%';
+		return round($this->_percentage, 2) . '%';
 	}
 }
