@@ -5,7 +5,7 @@ App::uses('EntityObject', 'CakePHPUtil.Lib/Entity');
 /**
  * Class UtilAppModel
  */
-class UtilAppModel extends Model {
+abstract class UtilAppModel extends Model {
 
 /**
  * See Model::find for the full docs.
