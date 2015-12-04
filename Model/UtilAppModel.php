@@ -7,6 +7,7 @@ App::uses('EntityObject', 'CakePHPUtil.Lib/Entity');
  */
 class UtilAppModel extends Model {
 
+	public $useTable = false;
 /**
  * See Model::find for the full docs.
  *
