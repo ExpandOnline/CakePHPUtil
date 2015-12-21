@@ -92,4 +92,16 @@ class FinancialData extends Data {
 	public function getCurrency() {
 		return $this->_currency;
 	}
+
+/**
+ * @param FinancialData $data
+ *
+ * @return FinancialData
+ */
+	public function sub(FinancialData $data) {
+		if (is_null($this->getMoneyInMicros()) || is_null($data->getMoneyInMicros())) {
+			throw new InternalErrorException('One of the values was not set.');
+		}
+		return new FinancialData($this->_moneyInMicros - $data->getMoneyInMicros($this->getCurrency()));
+	}
 }
