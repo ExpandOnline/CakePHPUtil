@@ -10,6 +10,7 @@ App::uses('ErrorData', 'CakePHPUtil.Lib/Data');
 App::uses('IconData', 'CakePHPUtil.Lib/Data');
 App::uses('FinancialData', 'CakePHPUtil.Lib/Data');
 App::uses('PercentageData', 'CakePHPUtil.Lib/Data');
+App::uses('HtmlData', 'CakePHPUtil.Lib/Data');
 
 /**
  * Class EntityObject
