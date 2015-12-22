@@ -15,6 +15,7 @@ abstract class Data {
 	const ICON = 'Icon';
 	const FINANCIAL = 'Financial';
 	const PERCENTAGE = 'Percentage';
+	const HTML = 'Html';
 
 	const POSITIVE = 1;
 
