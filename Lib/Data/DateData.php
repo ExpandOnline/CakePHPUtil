@@ -1,11 +1,24 @@
 <?php
 
+App::uses('Data', 'CakePHPUtil.Lib/Data');
 class DateData extends Data {
 
 /**
  * @var DateTime $_date
  */
 	protected $_date = null;
+
+/**
+ * @var string
+ */
+	protected $_format = 'd-m-Y H:i:s';
+
+/**
+ * @param string $format
+ */
+	public function setFormat($format) {
+		$this->_format = $format;
+	}
 
 /**
  * @param $dateString
@@ -25,7 +38,7 @@ class DateData extends Data {
  * @return string
  */
 	public function getDate() {
-		return $this->_date->format('d-m-Y H:i:s');
+		return $this->_date->format($this->_format);
 	}
 
 /**
