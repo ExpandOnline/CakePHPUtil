@@ -1,5 +1,7 @@
 <?php
+
 App::uses('Data', 'CakePHPUtil.Lib/Data');
+App::uses('PrintableRow', 'CakePHPUtil.Lib/Entity');
 App::uses('DateData', 'CakePHPUtil.Lib/Data');
 App::uses('LinkData', 'CakePHPUtil.Lib/Data');
 App::uses('DataCollection', 'CakePHPUtil.Lib/Data');
@@ -15,7 +17,7 @@ App::uses('HtmlData', 'CakePHPUtil.Lib/Data');
 /**
  * Class EntityObject
  */
-abstract class EntityObject extends ArrayObject {
+abstract class EntityObject extends ArrayObject implements PrintableRow {
 
 /**
  * Returns the text that should be used as main display line for this object (e.g. Account Name)
