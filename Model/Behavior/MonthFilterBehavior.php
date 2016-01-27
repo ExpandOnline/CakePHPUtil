@@ -1,12 +1,9 @@
 <?php
+App::uses('AppBehavior', 'Model/Behavior');
+
 /**
- * Created by PhpStorm.
- * User: switteveen
- * Date: 26-1-2016
- * Time: 11:52
+ * Class MonthFilterBehavior
  */
-
-
 class MonthFilterBehavior extends AppBehavior {
 
 	/**
@@ -19,6 +16,9 @@ class MonthFilterBehavior extends AppBehavior {
 	 * @param DateTime $defaultEnd
 	 */
 	public function setDefaultFilterMonths(Model $model, DateTime $defaultStart = null, DateTime $defaultEnd = null) {
+		if (!property_exists($model, 'filterArgs')) {
+			$model->filterArgs = [];
+		}
 		$model->filterArgs['year_start']['defaultValue'] =
 			is_null($defaultStart) ? date('Y') : $defaultStart->format('Y');
 		$model->filterArgs['month_start']['defaultValue'] =
@@ -26,29 +26,27 @@ class MonthFilterBehavior extends AppBehavior {
 		$model->filterArgs['year_end']['defaultValue'] =
 			is_null($defaultEnd) ? date('Y') : $defaultEnd->format('Y');
 		$model->filterArgs['month_end']['defaultValue'] =
-			is_null($defaultEnd) ? 1 : $defaultEnd->format('m');
+			is_null($defaultEnd) ? 12 : $defaultEnd->format('m');
 	}
 
 	/**
 	 * @return DateTime
 	 */
 	public function getDateStart($passedArgs) {
-		if ($this->_isNumericKey($passedArgs, 'year_start') && $this->_isNumericKey($passedArgs, 'month_start')) {
+		if (!$this->_isNumericKey($passedArgs, 'year_start') || !$this->_isNumericKey($passedArgs, 'month_start')) {
 			return null;
 		}
-		return new DateTime(
-			date(sprintf('%s-%s-01', $this->request->query('year_start'), $this->request->query('month_start'))));
+		return new DateTime(sprintf('%s-%s-01', $passedArgs['year_start'], $passedArgs['month_start']));
 	}
 
 	/**
 	 * @return DateTime
 	 */
 	public function getDateEnd($passedArgs) {
-		if ($this->_isNumericKey($passedArgs, 'year_end') && $this->_isNumericKey($passedArgs, 'month_end')) {
+		if (!$this->_isNumericKey($passedArgs, 'year_end') || !$this->_isNumericKey($passedArgs, 'month_end')) {
 			return null;
 		}
-		return new DateTime(date('Y-m-t 23:59:59',
-			strtotime(sprintf('%s-%s-01', $this->request->query('year_end'), $this->request->query('month_end')))));
+		return new DateTime(sprintf('%s-%s-01 23:59:59', $passedArgs['year_end'], $passedArgs['month_end']));
 	}
 
 	/**
