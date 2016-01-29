@@ -65,7 +65,9 @@ class MonthFilterBehaviorTest extends CakeTestCase{
 		];
 
 		foreach ($cases as $case) {
-			$month = $this->MonthFilter->getDateStart($case['args']);
+			$myModel = new Model();
+			$this->MonthFilter->setDefaultFilterMonths($myModel);
+			$month = $this->MonthFilter->getDateStart($myModel, $case['args']);
 			if (!is_null($month)) $month = $month->format('Y-m-d');
 			$this->assertEquals($month, $case['expect']);
 		}
@@ -108,7 +110,9 @@ class MonthFilterBehaviorTest extends CakeTestCase{
 		];
 
 		foreach ($cases as $case) {
-			$month = $this->MonthFilter->getDateEnd($case['args']);
+			$myModel = new Model();
+			$this->MonthFilter->setDefaultFilterMonths($myModel);
+			$month = $this->MonthFilter->getDateEnd($myModel, $case['args']);
 			if (!is_null($month)) $month = $month->format('Y-m-d');
 			$this->assertEquals($month, $case['expect']);
 		}

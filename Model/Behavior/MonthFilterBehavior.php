@@ -32,21 +32,40 @@ class MonthFilterBehavior extends AppBehavior {
 	/**
 	 * @return DateTime
 	 */
-	public function getDateStart($passedArgs) {
+	public function getDateStart($model, $passedArgs) {
 		if (!$this->_isNumericKey($passedArgs, 'year_start') || !$this->_isNumericKey($passedArgs, 'month_start')) {
 			return null;
 		}
-		return new DateTime(sprintf('%s-%s-01', $passedArgs['year_start'], $passedArgs['month_start']));
+		$date = new DateTime(sprintf('%s-%s-01', $passedArgs['year_start'], $passedArgs['month_start']));
+
+		unset($model->filterArgs['month_start']);
+		unset($model->filterArgs['year_start']);
+		return $date;
 	}
 
 	/**
 	 * @return DateTime
 	 */
-	public function getDateEnd($passedArgs) {
+	public function getDateEnd($model, $passedArgs) {
 		if (!$this->_isNumericKey($passedArgs, 'year_end') || !$this->_isNumericKey($passedArgs, 'month_end')) {
 			return null;
 		}
-		return new DateTime(sprintf('%s-%s-01 23:59:59', $passedArgs['year_end'], $passedArgs['month_end']));
+		$date = new DateTime(sprintf('%s-%s-01 23:59:59', $passedArgs['year_end'], $passedArgs['month_end']));
+
+		unset($model->filterArgs['month_end']);
+		unset($model->filterArgs['year_end']);
+		return $date;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getMonthFilterPeriod($model, $args) {
+		$period = array(
+			'start' => $this->getDateStart($model, $args),
+			'end' => $this->getDateEnd($model, $args),
+		);
+		return $period;
 	}
 
 	/**
