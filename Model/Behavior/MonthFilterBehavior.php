@@ -50,7 +50,7 @@ class MonthFilterBehavior extends AppBehavior {
 		if (!$this->_isNumericKey($passedArgs, 'year_end') || !$this->_isNumericKey($passedArgs, 'month_end')) {
 			return null;
 		}
-		$date = new DateTime(sprintf('%s-%s-01 23:59:59', $passedArgs['year_end'], $passedArgs['month_end']));
+		$date = new DateTime(date('Y-m-t 23:59:59', strtotime(sprintf('%s-%s-01', $passedArgs['year_end'], $passedArgs['month_end']))));
 
 		unset($model->filterArgs['month_end']);
 		unset($model->filterArgs['year_end']);
