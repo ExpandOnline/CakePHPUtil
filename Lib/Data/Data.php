@@ -23,6 +23,8 @@ abstract class Data {
 
 	const NEGATIVE = 3;
 
+	const WARNING = 4;
+
 /**
  * @var null indicates the nature of this data (e.g. positive for good, negative for bad, etc.)
  */
@@ -46,9 +48,7 @@ abstract class Data {
  * @param $sign
  */
 	public function setSign($sign) {
-		if ($sign == self::POSITIVE || $sign == self::NEGATIVE || $sign == self::NEUTRAL) {
-			$this->_sign = $sign;
-		}
+		$this->_sign = $sign;
 	}
 
 /**

@@ -9,9 +9,13 @@ class HoursData extends Data {
 	protected $_text = null;
 
 /**
- * @param string $text
+ * @param            $text
+ * @param bool|false $isSeconds
  */
-	public function __construct($text = '') {
+	public function __construct($text = '', $isSeconds = false) {
+		if ($isSeconds && !is_null($text)) {
+			$text = floor($text / 3600) . ':' . floor(($text % 3600) / 60);
+		}
 		$this->_text = $text;
 	}
 
@@ -26,7 +30,7 @@ class HoursData extends Data {
  * @return string
  */
 	public function __toString() {
-		return $this->_text;
+		return is_null($this->_text) ? '' : $this->_text;
 	}
 
 	/**
