@@ -2,7 +2,7 @@
 
 App::uses('ApiToken', 'CakePHPUtil.Lib/Api');
 App::uses('ApiScopeValidator', 'CakePHPUtil.Lib/Api/Scopes');
-App::uses('ApiScopeFactory', 'CakePHPUtil.Lib/Api/Scopes');
+App::uses('ExampleApiScope', 'CakePHPUtil.Lib/Api/Scopes');
 
 class ApiTokenTest extends CakeTestCase {
 
@@ -20,7 +20,7 @@ class ApiTokenTest extends CakeTestCase {
 		parent::setUp();
 		$this->apiToken = new ApiToken(
 			$this->token['id'],
-			[ApiScopeFactory::logScope()->setCreate()->setRead()->setUpdate()->setDelete()],
+			[(new ExampleApiScope())->setCreate()->setRead()->setUpdate()->setDelete()],
 			['test' => $this->token['test']]
 		);
 	}
@@ -36,23 +36,23 @@ class ApiTokenTest extends CakeTestCase {
 	public function testTokenScopes() {
 
 		$this->apiToken->setScopes([
-			ApiScopeFactory::logScope()->setCreate()->setRead()->setUpdate()->setDelete()
+			(new ExampleApiScope())->setCreate()->setRead()->setUpdate()->setDelete()
 		]);
 
 		$this->assertTrue(ApiScopeValidator::hasScopes(
 			(new ApiScopeValidator())->resolveScopes(
-				[ApiScopeFactory::logScope()->setCreate()->setRead()->setUpdate()->setDelete()]
+				[(new ExampleApiScope())->setCreate()->setRead()->setUpdate()->setDelete()]
 			),
 			[
-				ApiScopeFactory::logScope()->setCreate()->setRead()->setUpdate()->setDelete()
+				(new ExampleApiScope())->setCreate()->setRead()->setUpdate()->setDelete()
 			]
 		));
 
 		$this->assertEquals([
-			'logs.create',
-			'logs.read',
-			'logs.update',
-			'logs.delete'
+			'example.create',
+			'example.read',
+			'example.update',
+			'example.delete'
 		], $this->apiToken->getRawScopes());
 
 

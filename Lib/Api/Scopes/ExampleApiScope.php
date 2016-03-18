@@ -4,11 +4,11 @@ App::uses('BaseApiScope', 'CakePHPUtil.Lib/Api/Scopes');
 /**
  * Class LogApiScope
  */
-class LogApiScope extends BaseApiScope {
+class ExampleApiScope extends BaseApiScope {
 	/**
 	 * @return string
 	 */
 	public function getName() {
-		return 'logs';
+		return 'example';
 	}
 }
