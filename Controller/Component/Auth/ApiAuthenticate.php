@@ -1,9 +1,8 @@
 <?php
 App::uses('BaseAuthenticate', 'Controller/Component/Auth');
 App::uses('ApiExceptionFactory', 'CakePHPUtil.Lib/Api/Exceptions');
-App::uses('ApiScopeFactory', 'CakePHPUtil.Lib/Api/Scopes');
 
-App::uses('ApiToken', 'CakePHPUtil.Lib/Api');
+App::uses('ApiToken', 'CakePHPUtil.Lib/Api');	
 
 /**
  * Class ApiAuthenticate
