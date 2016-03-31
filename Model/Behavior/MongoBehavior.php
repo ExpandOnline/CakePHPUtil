@@ -164,4 +164,25 @@ class MongoBehavior extends ModelBehavior {
 	public function dropCurrentCollection(Model $model){
 		 $model->getDataSource()->getMongoCollection($model)->drop();
 	}
+
+	/**
+	 * @param Model $model
+	 * @param       $validationRules
+	 *
+	 * @return bool
+	 */
+	public function validatesMongo(Model $model, $validationRules) {
+		$mongoData = $model->data[$model->alias];
+		$validates = true;
+		$model->validationErrors = [];
+		foreach ($validationRules as $requiredFieldPath => $fieldLabel) {
+			$value = Hash::get($mongoData, $requiredFieldPath);
+			if (false === $value || empty($value)) {
+				$model->validationErrors[] = $fieldLabel . ' mag niet leeg gelaten worden.';
+				$validates = false;
+			}
+		}
+		
+		return $validates;
+	}
 }
