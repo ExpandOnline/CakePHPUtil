@@ -185,4 +185,63 @@ class MongoBehavior extends ModelBehavior {
 		
 		return $validates;
 	}
+
+	/**
+	 * @param Model $model
+	 * @param       $lockedOffsets
+	 *
+	 * @return array|null
+	 */
+	public function getRandomItems(Model $model, $lockedOffsets) {
+		/**
+		 * @var int $total
+		 */
+		$total = $model->find('count');
+		$randomOffsets = array_diff($this->_getRandomOffsets($total), $lockedOffsets);
+		if (count($lockedOffsets) > $total) {
+			array_splice($lockedOffsets, $total);
+		}
+		foreach ($lockedOffsets as &$lockedOffset) {
+			if (is_null($lockedOffset)) {
+				$lockedOffset = array_pop($randomOffsets);
+			}
+		}
+		return $this->_getMongoItemsByOffsets($model, $lockedOffsets);
+	}
+
+	/**
+	 * @param Model $model
+	 * @param       $offsets
+	 *
+	 * @return array
+	 */
+	protected function _getMongoItemsByOffsets(Model $model, $offsets) {
+		$items = array();
+		foreach ($offsets as $offset) {
+			$item = $model->find('all', array(
+				'limit' => 1,
+				'offset' => $offset
+			));
+			$item[0][$model->alias]['lock_id'] = $offset;
+			$items[] = $item[0][$model->alias];
+		}
+		return $items;
+	}
+
+	/**
+	 * @param int $total
+	 * @param int $limit
+	 *
+	 * @return array
+	 */
+	protected function _getRandomOffsets($total, $limit = 5) {
+		if ($total == 0) {
+			return array();
+		}
+		$randomPool = range(0, $total - 1);
+		if ($limit > $total) {
+			$limit = $total;
+		}
+		return array_rand($randomPool, $limit);
+	}
 }
