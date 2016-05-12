@@ -93,7 +93,13 @@ class SqlViewFixtureHandler {
 		$resultSet = $sourceDb->execute(sprintf('SHOW CREATE VIEW %s', $viewName));
 		foreach($resultSet as $result) {
 			if (array_key_exists('Create View', $result) && !empty($result['Create View'])) {
-				return $result['Create View'];
+				preg_match('/(?:CREATE(?:\s+OR\s+REPLACE)?\s+)'
+					. '(ALGORITHM=[^\s]+\s+)?(?:DEFINER=`[^`]+`@`[^`]+`\s+)?'
+					. '(?:SQL\s+SECURITY\s+(?:DEFINER|INVOKER)\s+)?VIEW\s+`([^`]+)`\s+AS\s+(.*)$/',
+					$result['Create View'],
+					$matches
+				);
+				return sprintf('CREATE OR REPLACE %sVIEW `%s` AS %s' , $matches[1], $matches[2], $matches[3]);
 			}
 		}
 
