@@ -10,42 +10,42 @@ class SqlViewFixtureHandler {
 /**
  * @var array
  */
-	protected static $dropStatements = [];
+	protected $dropStatements = [];
 
 /**
  * @var array
  */
-	protected static $viewFixtures = [];
+	protected $viewFixtures = [];
 
 /**
  * @var array
  */
-	protected static $tableFixtures = [];
+	protected $tableFixtures = [];
 
 /**
  * @param SqlViewTest $testCase
  * Initialization for a SqlViewTest. Must be called before the parent constructor of the SqlViewTest,
  * because the fixture array for regular fixtures may be modified.
  */
-	public static function init(SqlViewTest $testCase) {
-		static::$viewFixtures = [];
-		static::$tableFixtures = [];
-		static::$dropStatements = [];
+	public function init(SqlViewTest $testCase) {
+		$this->viewFixtures = [];
+		$this->tableFixtures = [];
+		$this->dropStatements = [];
 
 		foreach ($testCase->getSqlViewFixtures() as $fixture) {
-			static::_appendFixtureRecursive($fixture);
+			$this->_appendFixtureRecursive($fixture);
 		}
-		static::$viewFixtures = array_reverse(static::$viewFixtures);
-		$testCase->fixtures = array_unique(array_merge(static::$tableFixtures, $testCase->fixtures));
+		$this->viewFixtures = array_reverse($this->viewFixtures);
+		$testCase->fixtures = array_unique(array_merge($this->tableFixtures, $testCase->fixtures));
 	}
 
 /**
  * Will create the actual view(s). Must be called after init, but before fixtures are used.
  * Best place would probably be the setUp() method of the SqlViewTest.
  */
-	public static function createViews() {
-		foreach (array_unique(static::$viewFixtures) as $fixture) {
-			static::loadSqlViewFixture($fixture);
+	public function createViews() {
+		foreach (array_unique($this->viewFixtures) as $fixture) {
+			$this->loadSqlViewFixture($fixture);
 		}
 	}
 
@@ -53,34 +53,34 @@ class SqlViewFixtureHandler {
  * Drops the views. Must be called after testing is completed. Best place would probably be the tearDown() method
  * of SqlViewTest.
  */
-	public static function dropViews() {
+	public function dropViews() {
 		$db = ConnectionManager::getDataSource('test');
-		foreach(static::$dropStatements as $statement) {
+		foreach($this->dropStatements as $statement) {
 			$db->execute($statement);
 		}
 	}
 
-	protected static function _appendFixtureRecursive($fixture) {
-		static::$viewFixtures[] = $fixture;
-		$fixture = self::getFixtureInstance($fixture);
-		static::$tableFixtures = array_merge(static::$tableFixtures, $fixture->getTableFixtureDependencies());
+	protected function _appendFixtureRecursive($fixture) {
+		$this->viewFixtures[] = $fixture;
+		$fixture = $this->getFixtureInstance($fixture);
+		$this->tableFixtures = array_merge($this->tableFixtures, $fixture->getTableFixtureDependencies());
 		foreach($fixture->getViewFixtureDependencies() as $fixture) {
-			static::_appendFixtureRecursive($fixture);
+			$this->_appendFixtureRecursive($fixture);
 		}
 	}
 
 /**
 * @param SqlViewTest $testCase
 */
-	protected static function loadSqlViewFixture ($fixture) {
-		$fixture = self::getFixtureInstance($fixture);
+	protected function loadSqlViewFixture ($fixture) {
+		$fixture = $this->getFixtureInstance($fixture);
 		$dataSource = $fixture->getDataSourceName();
 		$testDb = ConnectionManager::getDataSource($dataSource == 'default' ? 'test' : 'test_' . $dataSource);
 		$sourceDb = ConnectionManager::getDataSource($dataSource);
 		$view = $fixture->getViewName();
-		$statement = static::getCreateStatement($sourceDb, $view);
+		$statement = $this->getCreateStatement($sourceDb, $view);
 		$testDb->execute($statement);
-		self::$dropStatements[] = sprintf('DROP VIEW %s;', $view);
+		$this->dropStatements[] = sprintf('DROP VIEW %s;', $view);
 	}
 
 /**
@@ -89,7 +89,7 @@ class SqlViewFixtureHandler {
  *
  * @return mixed
  */
-	protected static function getCreateStatement(DataSource $sourceDb, $viewName) {
+	protected function getCreateStatement(DataSource $sourceDb, $viewName) {
 		$resultSet = $sourceDb->execute(sprintf('SHOW CREATE VIEW %s', $viewName));
 		foreach($resultSet as $result) {
 			if (array_key_exists('Create View', $result) && !empty($result['Create View'])) {
@@ -115,7 +115,7 @@ class SqlViewFixtureHandler {
  *
  * @return SqlViewFixture
  */
-	protected static function getFixtureInstance($fixture) {
+	protected function getFixtureInstance($fixture) {
 		if (strpos($fixture, '.') === false) {
 			throw new InternalErrorException(sprintf('malformed fixture: %s does not contain \'.\'!', $fixture));
 		}

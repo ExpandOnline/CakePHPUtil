@@ -13,6 +13,11 @@ abstract class SqlViewTestCase extends CakeTestCase implements SqlViewTest {
  */
 	public $sqlViewFixtures = [];
 
+	/**
+	 * @var SqlViewFixtureHandler
+	 */
+	protected $_sqlViewFixtureHandler;
+
 /**
  * SqlViewTestCase constructor.
  *
@@ -21,7 +26,8 @@ abstract class SqlViewTestCase extends CakeTestCase implements SqlViewTest {
  * @param string $dataName
  */
 	public function __construct($name = null, array $data = array(), $dataName = '') {
-		SqlViewFixtureHandler::init($this);
+		$this->_sqlViewFixtureHandler = new SqlViewFixtureHandler();
+		$this->_sqlViewFixtureHandler->init($this);
 		parent::__construct($name, $data, $dataName);
 	}
 
@@ -30,14 +36,14 @@ abstract class SqlViewTestCase extends CakeTestCase implements SqlViewTest {
  */
 	public function setUp() {
 		parent::setUp();
-		SqlViewFixtureHandler::createViews();
+		$this->_sqlViewFixtureHandler->createViews();
 	}
 
 /**
  *
  */
 	public function tearDown() {
-		SqlViewFixtureHandler::dropViews();
+		$this->_sqlViewFixtureHandler->dropViews();
 		parent::tearDown();
 	}
 
