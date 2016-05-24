@@ -10,6 +10,7 @@ abstract class Data {
 	const COLLECTION = 'Collection';
 	const ACTION = 'Action';
 	const SHORT = 'Short';
+	const FIXED_SHORT = 'FixedShort';
 	const HOURS = 'Hours';
 	const ERROR = 'Error';
 	const ICON = 'Icon';
