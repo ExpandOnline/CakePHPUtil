@@ -21,4 +21,13 @@ interface TryProxyHandler {
 	 */
 	public function reset();
 
+	/**
+	 * Returns whether or not this handler will handle the exception
+	 *
+	 * @param \Exception $exception
+	 *
+	 * @return bool
+	 */
+	public function willHandle(\Exception $exception);
+
 }

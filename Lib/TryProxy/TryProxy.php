@@ -48,12 +48,16 @@ class TryProxy {
 			$this->handler->reset();
 			return $response;
 		} catch (\Exception $e) {
+			if (!$this->handler->willHandle($e)) {
+				throw $e;
+			}
 			return $this->handler->handle(
 				$e,
 				function() use ($method, $arguments) {
 					return call_user_func_array([$this, $method], $arguments);
 				}
 			);
+
 		}
 	}
 
