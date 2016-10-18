@@ -12,7 +12,7 @@ class ApiAuthenticate extends BaseAuthenticate {
 	/**
 	 * @var string
 	 */
-	protected $_authHeaderName = 'Authorization';
+	protected $_authHeaderName = 'authorization';
 	/**
 	 * @var string
 	 */
@@ -84,7 +84,7 @@ class ApiAuthenticate extends BaseAuthenticate {
 	 * @throws InvalidApiAuthorizationException
 	 */
 	protected function _getAuthHeader() {
-		$headers = getallheaders();
+		$headers = array_change_key_case(getallheaders());
 
 		if (!isset($headers[$this->_authHeaderName]) || null === $headers[$this->_authHeaderName]) {
 			throw ApiExceptionFactory::invalidAuthorizationException('Authorization token required');
