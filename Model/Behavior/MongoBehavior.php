@@ -158,6 +158,10 @@ class MongoBehavior extends ModelBehavior {
 		return $model->getDataSource()->getMongoCollection($model)->find();
 	}
 
+	public function getMongoAggregateCursor(Model $model, $command = []) {
+		return $model->getDataSource()->getMongoCollection($model)->aggregateCursor($command);
+	}
+
 /**
  * @param Model $model
  */
