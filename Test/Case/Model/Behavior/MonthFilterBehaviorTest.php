@@ -82,15 +82,15 @@ class MonthFilterBehaviorTest extends CakeTestCase{
 					'month_end' => '11',
 					'test' => 'xyz'
 				],
-				'expect' => '2015-11-01'
+				'expect' => '2015-11-30'
 			],
 			[
 				'args' => [
-					'year_end' => '2015',
-					'month_end' => '11',
+					'year_end' => '2013',
+					'month_end' => '2',
 					'test' => 'xyz'
 				],
-				'expect' => '2015-11-01'
+				'expect' => '2013-02-28'
 			],
 			[
 				'args' => [
