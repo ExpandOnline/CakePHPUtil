@@ -13,14 +13,11 @@ class ApiAuthenticate extends BaseAuthenticate {
 	 * @var string
 	 */
 	protected $_authHeaderName = 'authorization';
+
 	/**
 	 * @var string
 	 */
-	protected $_token_key = null;
-	/**
-	 * @var array
-	 */
-	protected $_encrypt_method = ['HS256'];
+	protected $_secretKey = null;
 
 	/**
 	 * @var bool
@@ -45,27 +42,24 @@ class ApiAuthenticate extends BaseAuthenticate {
 	 * @throws JsonApiException
 	 */
 	public function getUser(CakeRequest $request) {
-
-		// Since this component is autoloaded by Cake, no clue how to inject secret key.
-		$this->_token_key = Configure::read('API.SECRET_KEY');
-		if (empty($this->_token_key)) {
-			throw ApiExceptionFactory::jsonApiException('Development error');
+		$this->_secretKey = Configure::read('API.SECRET_KEY');
+		if (empty($this->_secretKey)) {
+			throw ApiExceptionFactory::jsonApiException('Internal server error, contact ' . DEV_EMAIL);
 		}
-
-		$authHeader = $this->_getAuthHeader();
-
 		try {
-			$jwt = (new ApiToken())->decode($authHeader, $this->_token_key);
-
-			if(!$jwt->getId()){
-				throw ApiExceptionFactory::invalidAuthorizationException('Invalid token');
-			}
-
-			return ['token' => $jwt];
-
+			$jwt = (new ApiToken())->decode($this->_getAuthHeader(), $this->_secretKey);
 		} catch (Exception $e) {
-			throw ApiExceptionFactory::invalidAuthorizationException('Invalid token');
+			throw ApiExceptionFactory::invalidAuthorizationException("Invalid token: could not decrypt token.");
 		}
+
+		if(!$jwt->getId()){
+			throw ApiExceptionFactory::invalidAuthorizationException(
+				"Invalid token: missing 'sub' field in payload."
+			);
+		}
+
+		return ['token' => $jwt];
+
 	}
 
 	/**
@@ -87,11 +81,11 @@ class ApiAuthenticate extends BaseAuthenticate {
 		$headers = array_change_key_case(getallheaders());
 
 		if (!isset($headers[$this->_authHeaderName]) || null === $headers[$this->_authHeaderName]) {
-			throw ApiExceptionFactory::invalidAuthorizationException('Authorization token required');
+			throw ApiExceptionFactory::invalidAuthorizationException('Missing Authorization header.');
 		}
 
 		if (false === stripos($headers[$this->_authHeaderName], 'Bearer ')) {
-			throw ApiExceptionFactory::invalidAuthorizationException('Invalid Authorization formatting');
+			throw ApiExceptionFactory::invalidAuthorizationException('Non-supported Authorization header provided.');
 		}
 
 		return str_ireplace('Bearer ', '', $headers[$this->_authHeaderName]);

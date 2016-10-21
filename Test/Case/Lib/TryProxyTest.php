@@ -58,6 +58,17 @@ class TestHandler extends CakeTestCase implements TryProxyHandler {
 	public function reset() {
 		$this->assertTrue($this->shouldReset);
 	}
+
+	/**
+	 * Returns whether or not this handler will handle the exception
+	 *
+	 * @param \Exception $exception
+	 *
+	 * @return bool
+	 */
+	public function willHandle(\Exception $exception) {
+		return true;
+	}
 }
 
 /**
