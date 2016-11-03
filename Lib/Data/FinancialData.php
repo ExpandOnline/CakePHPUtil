@@ -41,7 +41,7 @@ class FinancialData extends Data {
 			$exchangeDate = new DateTime('now', new DateTimeZone(CIA_APPLICATION_TIMEZONE));
 		}
 		$this->_exchangeDate = $exchangeDate;
-		$this->_moneyInMicros = $moneyInMicros;
+		$this->_moneyInMicros = (int) $moneyInMicros;
 		$this->_currency = $currencyCode;
 		$this->_exchangeRateCalculator = new ExchangeRateCalculator();
 	}
