@@ -7,6 +7,16 @@ App::uses('EntityObject', 'CakePHPUtil.Lib/Entity');
  */
 abstract class UtilAppModel extends Model {
 
+	/**
+	 * @var int
+	 */
+	protected $_batchInsertCount = 5000;
+
+	/**
+	 * @var array
+	 */
+	protected $_batchInserts = [];
+
 /**
  * See Model::find for the full docs.
  *
@@ -114,4 +124,23 @@ abstract class UtilAppModel extends Model {
 		}
 		return $result;
 	}
+
+	/**
+	 * @param $data
+	 */
+	public function batchedSave($data) {
+		if ($this->_batchInsertCount === count($this->_batchInserts)) {
+			$this->flushBatchSave();
+		}
+		$this->_batchInserts[] = $data;
+	}
+
+	/**
+	 *
+	 */
+	public function flushBatchSave() {
+		$this->saveAll($this->_batchInserts);
+		$this->_batchInserts = [];
+	}
+
 }
