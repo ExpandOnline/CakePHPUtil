@@ -13,6 +13,7 @@ App::uses('IconData', 'CakePHPUtil.Lib/Data');
 App::uses('FinancialData', 'CakePHPUtil.Lib/Data');
 App::uses('PercentageData', 'CakePHPUtil.Lib/Data');
 App::uses('HtmlData', 'CakePHPUtil.Lib/Data');
+App::uses('HtmlDiffData', 'CakePHPUtil.Lib/Data');
 
 /**
  * Class EntityObject

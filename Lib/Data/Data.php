@@ -17,6 +17,8 @@ abstract class Data {
 	const FINANCIAL = 'Financial';
 	const PERCENTAGE = 'Percentage';
 	const HTML = 'Html';
+	const HTML_DIFF = 'HtmlDiff';
+
 
 	const POSITIVE = 1;
 
