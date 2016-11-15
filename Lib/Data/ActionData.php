@@ -12,6 +12,11 @@ class ActionData extends DataCollection {
  */
 	public $options = array();
 
+	/**
+	 * @var bool
+	 */
+	protected $_isDropUp = false;
+
 /**
  * @param array $actionArray
  * @param array $options
@@ -27,6 +32,22 @@ class ActionData extends DataCollection {
 			$this->actionArray[] = $action;
 		}
 	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isDropUp() {
+		return $this->_isDropUp;
+	}
+
+	/**
+	 * @param boolean $isDropUp
+	 */
+	public function setDropUp($isDropUp) {
+		$this->_isDropUp = $isDropUp;
+	}
+
+
 
 /**
  * @return string
