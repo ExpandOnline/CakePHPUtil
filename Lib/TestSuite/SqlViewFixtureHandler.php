@@ -77,6 +77,7 @@ class SqlViewFixtureHandler {
 		$dataSource = $fixture->getDataSourceName();
 		$testDb = ConnectionManager::getDataSource($dataSource == 'default' ? 'test' : 'test_' . $dataSource);
 		$sourceDb = ConnectionManager::getDataSource($dataSource);
+		$testDb->cacheSources = false;
 		$view = $fixture->getViewName();
 		$statement = $this->getCreateStatement($sourceDb, $view);
 		$testDb->execute($statement);
