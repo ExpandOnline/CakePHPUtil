@@ -47,7 +47,7 @@ class ApiAuthenticate extends BaseAuthenticate {
 			throw ApiExceptionFactory::jsonApiException('Internal server error, contact ' . DEV_EMAIL);
 		}
 		try {
-			$jwt = (new ApiToken())->decode($this->_getAuthHeader(), $this->_secretKey);
+			$jwt = (new ApiToken())->decode($this->_getAuthString($request), $this->_secretKey);
 		} catch (Exception $e) {
 			throw ApiExceptionFactory::invalidAuthorizationException("Invalid token: could not decrypt token.");
 		}
@@ -74,10 +74,11 @@ class ApiAuthenticate extends BaseAuthenticate {
 	}
 
 	/**
+	 * @param CakeRequest $request
 	 * @return mixed
 	 * @throws InvalidApiAuthorizationException
 	 */
-	protected function _getAuthHeader() {
+	protected function _getAuthString(CakeRequest $request) {
 		$headers = array_change_key_case(getallheaders());
 
 		if (!isset($headers[$this->_authHeaderName]) || null === $headers[$this->_authHeaderName]) {
