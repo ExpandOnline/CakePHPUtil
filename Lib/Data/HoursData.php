@@ -1,5 +1,6 @@
 <?php
 App::uses('Data', 'CakePHPUtil.Lib/Data/');
+use CakePHPUtil\Lib\Date\DateHelper;
 
 class HoursData extends Data {
 
@@ -52,6 +53,6 @@ class HoursData extends Data {
 	protected function _secondsToTime($seconds) {
 		$seconds = round($seconds / (60)) * (60);
 
-		return \Lib\Date\DateHelper::secondsToTime($seconds);
+		return DateHelper::secondsToTime($seconds);
 	}
 }
