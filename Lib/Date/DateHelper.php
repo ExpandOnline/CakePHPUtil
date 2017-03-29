@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib\Date;
+namespace CakePHPUtil\Lib\Date;
 
 /**
  * Class DateHelper

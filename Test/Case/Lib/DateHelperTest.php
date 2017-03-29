@@ -1,6 +1,6 @@
 <?php
 
-use Lib\Date\DateHelper;
+use CakePHPUtil\Lib\Date\DateHelper;
 
 class DateHelperTest extends CakeTestCase
 {
