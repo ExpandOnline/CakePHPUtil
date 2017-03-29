@@ -14,7 +14,7 @@ class HoursData extends Data {
  */
 	public function __construct($text = '', $isSeconds = false) {
 		if ($isSeconds && !is_null($text)) {
-			$text = floor($text / 3600) . ':' . floor(($text % 3600) / 60);
+			$text = $this->_secondsToTime($text);
 		}
 		$this->_text = $text;
 	}
@@ -52,6 +52,6 @@ class HoursData extends Data {
 	protected function _secondsToTime($seconds) {
 		$seconds = round($seconds / (60)) * (60);
 
-		return floor($seconds / 3600) . ':' . sprintf('%02d', ($seconds % 3600) / 60);
+		return \Lib\Date\DateHelper::secondsToTime($seconds);
 	}
 }
