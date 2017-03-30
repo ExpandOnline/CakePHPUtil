@@ -159,7 +159,8 @@ class MongoBehavior extends ModelBehavior {
 	}
 
 	public function getMongoAggregateCursor(Model $model, $command = []) {
-		return $model->getDataSource()->getMongoCollection($model)->aggregateCursor($command);
+		return $model->getDataSource()->getMongoCollection($model)
+			->aggregateCursor($command, ['allowDiskUse' => true]);
 	}
 
 /**
