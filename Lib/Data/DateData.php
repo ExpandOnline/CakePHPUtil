@@ -47,4 +47,11 @@ class DateData extends Data {
 	public function __toString() {
 		return $this->getDate();
 	}
+
+/**
+ * @return DateTime
+ */
+	public function getDateTime() {
+		return new DateTime($this->getDate());
+	}
 }
