@@ -10,7 +10,7 @@ class ModelIterator implements Iterator, Countable {
 	/**
 	 * @var array
 	 */
-	protected $conditions;
+	protected $options;
 
 	/**
 	 * @var string
@@ -36,12 +36,12 @@ class ModelIterator implements Iterator, Countable {
 	 * ModelIterator constructor.
 	 *
 	 * @param string $findType
-	 * @param array $conditions
+	 * @param array $options
 	 * @param Model $model
 	 */
-	public function __construct($findType, $conditions, $model) {
+	public function __construct($findType, $options, $model) {
 		$this->findType = $findType;
-		$this->conditions = $conditions;
+		$this->options = $options;
 		$this->model = $model;
 		$this->data = new ArrayIterator([]);
 	}
@@ -136,16 +136,16 @@ class ModelIterator implements Iterator, Countable {
 	 * @since 5.1.0
 	 */
 	public function count() {
-		return $this->model->find('count', [
-			'conditions' => $this->conditions
-		]);
+		return $this->model->find('count', $this->options);
 	}
 
+	/**
+	 *
+	 */
 	protected function findData() {
-		$this->data = new ArrayIterator($this->model->find($this->findType, [
-			'conditions' => $this->conditions,
+		$this->data = new ArrayIterator($this->model->find($this->findType, array_merge([
 			'limit' => $this->limit,
 			'offset' => $this->offset
-		]));
+		], $this->options)));
 	}
 }
