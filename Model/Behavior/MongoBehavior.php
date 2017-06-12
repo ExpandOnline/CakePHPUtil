@@ -1,4 +1,6 @@
 <?php
+use CakePHPUtil\Lib\MongoTableNotFoundException;
+
 App::import('Vendor', 'ModelBehavior', array(
 	'file' => 'cakephp' . DS . 'cakephp' . DS . 'lib' . DS . 'Cake' . DS . 'Model' . DS . 'ModelBehavior.php'
 ));
@@ -23,7 +25,7 @@ class MongoBehavior extends ModelBehavior {
 			: null;
 		if (is_null($table)) {
 			//Note that this exception prevents a Fatal Error on the line below.
-			throw new InternalErrorException(sprintf('Tried to delete Table %s, but it does not exist', $model->useTable));
+			throw new MongoTableNotFoundException(sprintf('Tried to delete Table %s, but it does not exist', $model->useTable));
 		}
 		$model->getDataSource()->getMongoDb()->{$model->useTable}->drop();
 	}
