@@ -18,11 +18,13 @@ class ApiExceptionFactory {
 	}
 
 	/**
-	 * @param $message
+	 * @param      $message
+	 *
+	 * @param null $previousException
 	 *
 	 * @return JsonApiException
 	 */
-	public static function jsonApiException($message){
-		return new JsonApiException($message);
+	public static function jsonApiException($message, $previousException = null){
+		return new JsonApiException($message, 0, $previousException);
 	}
 }
