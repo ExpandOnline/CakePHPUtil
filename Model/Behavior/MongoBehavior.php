@@ -227,7 +227,7 @@ class MongoBehavior extends ModelBehavior {
 		foreach ($offsets as $offset) {
 			$item = $model->find('all', array(
 				'limit' => 1,
-				'offset' => $offset
+				'offset' => (int) $offset
 			));
 			$item[0][$model->alias]['lock_id'] = $offset;
 			$items[] = $item[0][$model->alias];
