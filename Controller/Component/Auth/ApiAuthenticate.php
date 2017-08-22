@@ -12,7 +12,7 @@ class ApiAuthenticate extends BaseAuthenticate {
 	/**
 	 * @var string
 	 */
-	protected $_authHeaderName = 'authorization';
+	protected $_authHeaderName = 'Authorization';
 
 	/**
 	 * @var string
@@ -79,16 +79,15 @@ class ApiAuthenticate extends BaseAuthenticate {
 	 * @throws InvalidApiAuthorizationException
 	 */
 	protected function _getAuthString(CakeRequest $request) {
-		$headers = array_change_key_case(getallheaders());
-
-		if (!isset($headers[$this->_authHeaderName]) || null === $headers[$this->_authHeaderName]) {
+		$header = CakeRequest::header($this->_authHeaderName);
+		if(!$header) {
 			throw ApiExceptionFactory::invalidAuthorizationException('Missing Authorization header.');
 		}
 
-		if (false === stripos($headers[$this->_authHeaderName], 'Bearer ')) {
+		if (false === stripos($header, 'Bearer ')) {
 			throw ApiExceptionFactory::invalidAuthorizationException('Non-supported Authorization header provided.');
 		}
 
-		return str_ireplace('Bearer ', '', $headers[$this->_authHeaderName]);
+		return str_ireplace('Bearer ', '', $header);
 	}
 }
