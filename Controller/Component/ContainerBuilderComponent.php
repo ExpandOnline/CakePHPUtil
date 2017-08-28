@@ -1,5 +1,5 @@
 <?php
-App::uses('Component', 'Controller/Component');
+App::uses('Component', 'Controller');
 
 /**
  * Class ContainerBuilderComponent
