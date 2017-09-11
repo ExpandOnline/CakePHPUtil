@@ -22,7 +22,7 @@ class ContainerBuilder {
 
 
 		if(!($env = getenv('SYMFONY_ENV'))) {
-			$env = 'prod';
+			throw new \InvalidArgumentException('Setting the SYMFONY_ENV environment variable (prod, dev) is required.');
 		}
 
 		$loader->load('config_' . $env . '.yml');
