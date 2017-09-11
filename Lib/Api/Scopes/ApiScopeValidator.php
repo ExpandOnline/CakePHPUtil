@@ -14,7 +14,6 @@ class ApiScopeValidator {
 	 * @return bool
 	 */
 	public static function hasScopes($givenScopes, array $requiredScopes) {
-
 		if (!is_array($givenScopes) || empty($givenScopes)) {
 			return false;
 		}

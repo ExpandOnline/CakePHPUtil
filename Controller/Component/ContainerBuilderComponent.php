@@ -17,13 +17,8 @@ class ContainerBuilderComponent extends Component {
 	}
 
 	protected function _createContainer() {
-		$container = new \Symfony\Component\DependencyInjection\ContainerBuilder();
-		$loader = new \Symfony\Component\DependencyInjection\Loader\YamlFileLoader(
-			$container,
-			new \Symfony\Component\Config\FileLocator(CONTAINER_CONFIG_PATH)
-		);
-		$loader->load(CONTAINER_CONFIG_FILE);
+		$container = new \CakePHPUtil\Lib\Container\ContainerBuilder();
 
-		static::$_container = $container;
+		static::$_container = $container->getContainer();
 	}
 }
