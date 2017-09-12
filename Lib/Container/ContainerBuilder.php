@@ -21,10 +21,9 @@ class ContainerBuilder {
 		);
 
 
-		if(!($env = getenv('SYMFONY_ENV'))) {
+		if(!($env = getenv('SYMFONY_ENV', true) ? getenv('SYMFONY_ENV', true) : getenv('SYMFONY_ENV'))) {
 			throw new \InvalidArgumentException('Setting the SYMFONY_ENV environment variable (prod, dev) is required.');
 		}
-
 		$loader->load('config_' . $env . '.yml');
 
 		static::$_container = $container;
