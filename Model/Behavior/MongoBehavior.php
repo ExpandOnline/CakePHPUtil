@@ -11,6 +11,11 @@ App::import('Vendor', 'ModelBehavior', array(
 class MongoBehavior extends ModelBehavior {
 
 /**
+ * @var array
+ */
+	private $batchInsertArray = [];
+
+/**
  * Drop the current table.
  *
  * @throws InternalErrorException
@@ -151,6 +156,26 @@ class MongoBehavior extends ModelBehavior {
 	}
 
 /**
+ * @param Model $model
+ * @param       $insert
+ */
+	public function addToBatch(Model $model, $insert){
+		$this->batchInsertArray[$model->alias][] = $insert;
+
+		if (count($this->batchInsertArray[$model->alias]) > 1000){
+			$this->batchInsert($model, $this->batchInsertArray[$model->alias]);
+			$this->batchInsertArray[$model->alias] = [];
+		}
+	}
+
+/**
+ * @param Model $model
+ */
+	public function flushBatch(Model $model){
+		$this->batchInsert($model, $this->batchInsertArray[$model->alias]);
+	}
+
+/**
  * Returns a mongo cursor for the current collection.
  * @param Model $model
  *
@@ -189,7 +214,7 @@ class MongoBehavior extends ModelBehavior {
 				$validates = false;
 			}
 		}
-		
+
 		return $validates;
 	}
 
