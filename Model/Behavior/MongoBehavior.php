@@ -163,8 +163,7 @@ class MongoBehavior extends ModelBehavior {
 		$this->batchInsertArray[$model->alias][] = $insert;
 
 		if (count($this->batchInsertArray[$model->alias]) > 1000){
-			$this->batchInsert($model, $this->batchInsertArray[$model->alias]);
-			$this->batchInsertArray[$model->alias] = [];
+			$this->flushBatch($model);
 		}
 	}
 
@@ -176,6 +175,7 @@ class MongoBehavior extends ModelBehavior {
 			return;
 		}
 		$this->batchInsert($model, $this->batchInsertArray[$model->alias]);
+		$this->batchInsertArray[$model->alias] = [];
 	}
 
 /**
