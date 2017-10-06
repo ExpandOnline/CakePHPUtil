@@ -172,6 +172,9 @@ class MongoBehavior extends ModelBehavior {
  * @param Model $model
  */
 	public function flushBatch(Model $model){
+		if (!array_key_exists($model->alias, $this->batchInsertArray) || empty($this->batchInsertArray[$model->alias])) {
+			return;
+		}
 		$this->batchInsert($model, $this->batchInsertArray[$model->alias]);
 	}
 
