@@ -7,11 +7,11 @@ class TimeUtilTest extends CakeTestCase {
 	/**
 	 * @var TimeUtil
 	 */
-	public $TimeUtil;
+	public $timeUtil;
 
 	public function setUp() {
 		parent::setUp();
-		$this->TimeUtil = new TimeUtil();
+		$this->timeUtil = new TimeUtil();
 	}
 
 
@@ -42,11 +42,16 @@ class TimeUtilTest extends CakeTestCase {
 				'expected' => '-0.5',
 				'decimals' => 1
 			],
+			[
+				'hours' => '-0:30:30',
+				'expected' => '-0.5083',
+				'decimals' => 4
+			],
 		];
 		foreach ($cases as $case) {
 			$this->assertEquals(
 				$case['expected'],
-				number_format($this->TimeUtil->hoursToDecimal($case['hours']), $case['decimals'])
+				number_format($this->timeUtil->hoursToDecimal($case['hours']), $case['decimals'])
 			);
 		}
 	}
