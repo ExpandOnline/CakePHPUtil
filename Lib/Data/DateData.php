@@ -18,6 +18,7 @@ class DateData extends Data {
  */
 	public function setFormat($format) {
 		$this->_format = $format;
+		return $this;
 	}
 
 /**
