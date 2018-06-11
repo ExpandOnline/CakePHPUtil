@@ -26,17 +26,6 @@ class MongoBehavior extends ModelBehavior {
 	}
 
 /**
- * Check if the current table exists.
- *
- * @return bool
- */
-	protected function _tableExists($model) {
-		return $model->getDataSource()->getMongoDb()->system->namespaces->findOne(array(
-			'name' => $model->getDataSource()->config['database'] . '.' . $model->useTable
-		)) != null;
-	}
-
-/**
  * Group by method.
  *
  * @param array $field
